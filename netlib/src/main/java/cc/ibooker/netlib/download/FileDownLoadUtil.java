@@ -63,10 +63,10 @@ public class FileDownLoadUtil implements DownloadProgressListener {
             mHandler.removeCallbacks(null);
             mHandler = null;
         }
-        if (downLoadInfoBean != null)
-            downLoadInfoBean = new DownLoadInfoBean();
         if (fileDownLoadSubscription != null)
             fileDownLoadSubscription.unsubscribe();
+        if (downLoadInfoBean != null)
+            downLoadInfoBean = new DownLoadInfoBean();
         if (downLoadService != null)
             downLoadService = null;
     }
@@ -77,6 +77,10 @@ public class FileDownLoadUtil implements DownloadProgressListener {
     public void stopFileDownLoad() {
         if (executor != null)
             executor.shutdownNow();
+        if (mHandler != null) {
+            mHandler.removeCallbacks(null);
+            mHandler = null;
+        }
         if (fileDownLoadSubscription != null) {
             fileDownLoadSubscription.unsubscribe();
         }
@@ -212,6 +216,7 @@ public class FileDownLoadUtil implements DownloadProgressListener {
                                     // 下载完成
                                     if (onDownLoadListener != null)
                                         onDownLoadListener.onDownLoadCompleted(file);
+                                    stopFileDownLoad();
                                 }
 
                                 @Override
@@ -219,6 +224,7 @@ public class FileDownLoadUtil implements DownloadProgressListener {
                                     // 下载出错
                                     if (onDownLoadListener != null)
                                         onDownLoadListener.onDownLoadError(new Exception(e));
+                                    stopFileDownLoad();
                                 }
 
                                 @Override
