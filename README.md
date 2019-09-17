@@ -139,5 +139,18 @@ OkHttp3/Retrofit2/RxJava RxAndroid/Gson/Glide3
 #### 引用
 在build.gradle中添加如下代码：
 ```
-implementation project(':xizhinetlib')
+implementation project(':netlib')
+```
+
+或者
+```
+allprojects {
+	repositories {
+		maven { url 'https://jitpack.io' }
+	}
+}
+
+dependencies {
+    implementation 'com.github.zrunker:Net:v1.0'
+}
 ```
