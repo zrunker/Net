@@ -136,7 +136,7 @@ public class FileDownLoadUtil implements DownloadProgressListener {
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
-                        if (onDownLoadListener != null)
+                        if (onDownLoadListener != null && downLoadInfoBean.getContentLength() != 0)
                             onDownLoadListener.onDownLoad((int) (100 * downLoadInfoBean.getReadLength() / downLoadInfoBean.getContentLength()));
                     }
                 });
