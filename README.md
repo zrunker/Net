@@ -139,5 +139,5 @@ OkHttp3/Retrofit2/RxJava RxAndroid/Gson/Glide3
 #### 引用
 在build.gradle中添加如下代码：
 ```
-implementation project(':xizhinetlib')
+implementation project(':netlib')
 ```
