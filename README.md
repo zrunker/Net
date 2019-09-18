@@ -2,7 +2,7 @@
 #### 功能：网络请求封装
 #### 名称：
   NetLib（XiZhi+功能+lib）
-  ApplicationId：cc.ibooker..netlib
+  ApplicationId：cc.ibooker.netlib
 
 #### 依赖：
 OkHttp3/Retrofit2/RxJava RxAndroid/Gson/Glide3
