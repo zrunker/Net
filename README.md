@@ -154,3 +154,121 @@ dependencies {
     implementation 'com.github.zrunker:Net:v1.0'
 }
 ```
+#### 使用
+1、在Application中进行初始化
+```
+public class MyApplication extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ZNet.init(this, "http://ibooker.cc");
+    }
+}
+```
+
+2、构建接口类interface MyService
+```
+interface MyService {
+
+    /**
+     * 测试接口
+     */
+    @POST("user/test/")
+    Observable<ResultData<NullData>> userTest(@Query("value") String value);
+
+}
+```
+
+3、构建MyService实现类
+```
+public class HttpMethods {
+    private MyService myService;
+
+    // 构造方法私有
+    private HttpMethods() {
+        myService = ServiceCreateFactory.createRetrofitService(MyService.class);
+    }
+
+    //在访问HttpMethods时创建单例
+    private static HttpMethods INSTANCE;
+
+    //获取单例
+    public static HttpMethods getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new HttpMethods();
+        }
+        return INSTANCE;
+    }
+
+    /**
+     * 测试接口
+     */
+    public void userTest(MySubscriber<ResultData<NullData>> subscriber, String value) {
+        myService.userTest(value)
+                //指定subscribe()发生在io调度器（读写文件、读写数据库、网络信息交互等）
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                //指定subscriber的回调发生在主线程
+                .observeOn(AndroidSchedulers.mainThread())
+                //实现订阅关系
+                .subscribe(subscriber);
+    }
+
+}
+```
+
+4、使用
+```
+public class MainActivity extends AppCompatActivity {
+    private MySubscriber<ResultData<NullData>> subscriber;
+    private CompositeSubscription mSubscription;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 请求数据
+        subscriber = new MySubscriber<ResultData<NullData>>() {
+            @Override
+            protected void onError(ErrorData errorData) {
+
+            }
+
+            @Override
+            protected void onLogin(ErrorData errorData) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onNext(ResultData<NullData> nullDataResultData) {
+
+            }
+        };
+        HttpMethods.getInstance().userTest(subscriber, "111");
+        if (mSubscription == null)
+            mSubscription = new CompositeSubscription();
+        mSubscription.add(subscriber);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (subscriber != null)
+            subscriber.unsubscribe();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSubscription != null)
+            mSubscription.unsubscribe();
+    }
+}
+```
