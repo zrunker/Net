@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 28
@@ -43,4 +44,19 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     api 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     api 'com.github.bumptech.glide:glide:3.7.0'
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+//        本地仓库路径D:\WorkSpace
+//        E:\Android_Studio\AndroidStudioProjects\WorkSpace
+//        repository(url: uri('../repository'))
+        repository(url: "file://E://Android_Studio/AndroidStudioProjects/WorkSpace/")
+        // 唯一标识
+        pom.groupId = "cc.ibooker"
+        // 项目名称
+        pom.artifactId = "znet"
+        // 版本号
+        pom.version = "1.0.0"
+    }
 }
