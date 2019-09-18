@@ -135,15 +135,15 @@ public class FileDownLoadUtil implements DownloadProgressListener {
         // 重新赋值readLength
         downLoadInfoBean.setReadLength(read);
 
-        Observable.just(1)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        if (onDownLoadListener != null && downLoadInfoBean.getContentLength() != 0)
-                            onDownLoadListener.onDownLoad((int) (100 * downLoadInfoBean.getReadLength() / downLoadInfoBean.getContentLength()));
-                    }
-                });
+//        Observable.just(1)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<Integer>() {
+//                    @Override
+//                    public void call(Integer integer) {
+//                        if (onDownLoadListener != null && downLoadInfoBean.getContentLength() != 0)
+//                            onDownLoadListener.onDownLoad((int) (100 * downLoadInfoBean.getReadLength() / downLoadInfoBean.getContentLength()));
+//                    }
+//                });
     }
 
     /**
