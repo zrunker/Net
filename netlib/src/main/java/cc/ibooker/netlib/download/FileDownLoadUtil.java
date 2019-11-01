@@ -3,6 +3,9 @@ package cc.ibooker.netlib.download;
 import android.os.Handler;
 import android.os.Message;
 
+import com.xizi_ai.android.xizhinetlib.base.XiZhiNet;
+import com.xizi_ai.android.xizhinetlib.util.FileUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,18 +16,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import cc.ibooker.netlib.base.ZNet;
-import cc.ibooker.netlib.util.FileUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -61,7 +60,6 @@ public class FileDownLoadUtil implements DownloadProgressListener {
             executor.shutdownNow();
         if (mHandler != null) {
             mHandler.removeCallbacks(null);
-            mHandler = null;
         }
         if (fileDownLoadSubscription != null)
             fileDownLoadSubscription.unsubscribe();
@@ -75,11 +73,11 @@ public class FileDownLoadUtil implements DownloadProgressListener {
      * 停止下载
      */
     public void stopFileDownLoad() {
-        if (executor != null)
+        if (executor != null) {
             executor.shutdownNow();
+        }
         if (mHandler != null) {
             mHandler.removeCallbacks(null);
-            mHandler = null;
         }
         if (fileDownLoadSubscription != null) {
             fileDownLoadSubscription.unsubscribe();
@@ -184,7 +182,8 @@ public class FileDownLoadUtil implements DownloadProgressListener {
                             .client(builder.build())
                             .addConverterFactory(GsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .baseUrl(ZNet.getBaseUrl())
+                            .baseUrl(XiZhiNet.getBaseUrl())
+//                        .baseUrl(HttpMethods.BASE_URL)
                             .build();
                     downLoadService = retrofit.create(DownLoadService.class);
                 }
@@ -225,6 +224,7 @@ public class FileDownLoadUtil implements DownloadProgressListener {
                                     if (onDownLoadListener != null)
                                         onDownLoadListener.onDownLoadError(new Exception(e));
                                     stopFileDownLoad();
+                                    destoryFileDownLoad();
                                 }
 
                                 @Override
@@ -382,14 +382,25 @@ public class FileDownLoadUtil implements DownloadProgressListener {
     private void writeRandomAccessFile(ResponseBody responseBody, File file) {
         RandomAccessFile randomAccessFile = null;
         InputStream inputStream = null;
+        int progress;
+        int writeLength = 0;
         try {
             randomAccessFile = new RandomAccessFile(file, "rwd");
             randomAccessFile.seek(downLoadInfoBean.getReadLength());
             inputStream = responseBody.byteStream();
             int len;
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[1024 * 100];
             while ((len = inputStream.read(buffer)) != -1) {
                 randomAccessFile.write(buffer, 0, len);
+
+                if (onDownLoadListener != null && downLoadInfoBean.getContentLength() != 0) {
+                    writeLength = writeLength + len;
+                    progress = (int) (100 * downLoadInfoBean.getReadLength() / downLoadInfoBean.getContentLength());
+                    if (100 * writeLength / downLoadInfoBean.getContentLength() >= 1 || progress >= 99) {
+                        writeLength = 0;
+                        sendonDownLoadMessage(progress);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -441,8 +452,9 @@ public class FileDownLoadUtil implements DownloadProgressListener {
         Message message = Message.obtain();
         message.what = 3;
         message.obj = e;
-        if (mHandler == null)
+        if (mHandler == null) {
             mHandler = new MyHandler(this);
+        }
         mHandler.sendMessage(message);
     }
 
