@@ -3,7 +3,7 @@ package cc.ibooker.netlib.listeners;
 import cc.ibooker.netlib.dto.ErrorData;
 
 /**
- * 网络请求接口
+ * 网络请求回调接口
  *
  * @author 邹峰立
  */
