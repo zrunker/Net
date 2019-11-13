@@ -59,9 +59,7 @@ public class MyOkHttpClient {
 
         // 创建OkHttpClient对象
         mClient = getClientBuilder()
-//                .addInterceptor(noTokenInterceptor)
                 .addInterceptor(logging)
-//                .addInterceptor(longLogging)
                 .connectTimeout(defaultTimeout, TimeUnit.SECONDS)// 超时时间15S
                 .writeTimeout(defaultTimeout, TimeUnit.SECONDS)
                 .readTimeout(defaultTimeout, TimeUnit.SECONDS)
