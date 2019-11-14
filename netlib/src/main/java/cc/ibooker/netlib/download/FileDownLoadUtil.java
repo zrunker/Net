@@ -3,9 +3,6 @@ package cc.ibooker.netlib.download;
 import android.os.Handler;
 import android.os.Message;
 
-import com.xizi_ai.android.xizhinetlib.base.XiZhiNet;
-import com.xizi_ai.android.xizhinetlib.util.FileUtil;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import cc.ibooker.netlib.base.ZNet;
+import cc.ibooker.netlib.util.FileUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
@@ -182,7 +181,7 @@ public class FileDownLoadUtil implements DownloadProgressListener {
                             .client(builder.build())
                             .addConverterFactory(GsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .baseUrl(XiZhiNet.getBaseUrl())
+                            .baseUrl(ZNet.getBaseUrl())
 //                        .baseUrl(HttpMethods.BASE_URL)
                             .build();
                     downLoadService = retrofit.create(DownLoadService.class);
