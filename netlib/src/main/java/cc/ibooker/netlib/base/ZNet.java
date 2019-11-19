@@ -87,7 +87,7 @@ public class ZNet {
     }
 
     // 设置拦截器
-    public static void setInterceptor(Interceptor interceptor) {
+    public static void addInterceptor(Interceptor interceptor) {
         MyOkHttpClient.setInterceptor(interceptor);
     }
 
