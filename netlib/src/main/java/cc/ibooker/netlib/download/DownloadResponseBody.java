@@ -14,6 +14,8 @@ import okio.Source;
 
 /**
  * 复写下载ResponseBody
+ *
+ * @author 邹峰立
  */
 public class DownloadResponseBody extends ResponseBody {
 

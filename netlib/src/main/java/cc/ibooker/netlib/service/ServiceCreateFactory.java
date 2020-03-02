@@ -1,6 +1,5 @@
 package cc.ibooker.netlib.service;
 
-
 import cc.ibooker.netlib.base.ZNet;
 import cc.ibooker.netlib.request.MyGsonConverterFactory;
 import cc.ibooker.netlib.request.MyOkHttpClient;
@@ -9,13 +8,14 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * 服务构建工厂
+ *
  * @author 邹峰立
  */
 public class ServiceCreateFactory {
     /**
      * 创建服务
      *
-     * @param clazz   映射的服务类
+     * @param clazz 映射的服务类
      */
     public static <T> T createRetrofitService(final Class<T> clazz) {
         Retrofit retrofit = new Retrofit.Builder()

@@ -9,8 +9,9 @@ import okhttp3.Response;
 
 /**
  * 下载进度拦截器
+ *
+ * @author 邹峰立
  */
-
 public class DownloadInterceptor implements Interceptor {
 
     private DownloadProgressListener listener;

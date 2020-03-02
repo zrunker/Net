@@ -9,6 +9,8 @@ import rx.Observable;
 
 /**
  * 下载的Service
+ *
+ * @author 邹峰立
  */
 public interface DownLoadService {
     /**

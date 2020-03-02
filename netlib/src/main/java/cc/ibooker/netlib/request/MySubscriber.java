@@ -12,7 +12,7 @@ import retrofit2.HttpException;
 import rx.Subscriber;
 
 /**
- * 复写订阅
+ * 自定义订阅
  *
  * @author 邹峰立
  */

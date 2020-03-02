@@ -2,6 +2,8 @@ package cc.ibooker.netlib.download;
 
 /**
  * 下载情况类
+ *
+ * @author 邹峰立
  */
 public class DownLoadInfoBean {
     private long contentLength;/* 文件总长度 */

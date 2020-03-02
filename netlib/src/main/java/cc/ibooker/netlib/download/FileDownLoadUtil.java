@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import cc.ibooker.netlib.base.ZNet;
-import cc.ibooker.netlib.util.FileUtil;
+import cc.ibooker.netlib.util.NetFileUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
@@ -156,7 +156,7 @@ public class FileDownLoadUtil implements DownloadProgressListener {
             File dir = new File(filePath);
             boolean bool = dir.exists();
             if (!bool)
-                FileUtil.createSDDirs(filePath);
+                NetFileUtil.createSDDirs(filePath);
             final File file = new File(filePath, fileName);
             bool = file.exists() && file.isFile();
             if (!bool) {
@@ -182,7 +182,6 @@ public class FileDownLoadUtil implements DownloadProgressListener {
                             .addConverterFactory(GsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                             .baseUrl(ZNet.getBaseUrl())
-//                        .baseUrl(HttpMethods.BASE_URL)
                             .build();
                     downLoadService = retrofit.create(DownLoadService.class);
                 }
@@ -264,7 +263,7 @@ public class FileDownLoadUtil implements DownloadProgressListener {
             File dir = new File(filePath);
             boolean bool = dir.exists();
             if (!bool)
-                FileUtil.createSDDirs(filePath);
+                NetFileUtil.createSDDirs(filePath);
             final File file = new File(filePath, fileName);
             bool = file.exists() && file.isFile();
             if (!bool) {

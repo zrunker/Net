@@ -2,6 +2,8 @@ package cc.ibooker.netlib.download;
 
 /**
  * 下载进度监听
+ *
+ * @author 邹峰立
  */
 public interface DownloadProgressListener {
 
