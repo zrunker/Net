@@ -43,6 +43,10 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
         } else if (e instanceof NoNetException) {
             errorData.setMsg("当前网络不给力！");
             errorData.setCode(-5);
+        } else if (e instanceof LoginException) {
+            onLogin(((LoginException) e).getErrorData());
+        } else if (e instanceof RunException) {
+            errorData = ((RunException) e).getErrorData();
         } else {
             errorData.setMsg(e.getMessage());
         }
