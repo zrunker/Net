@@ -62,7 +62,7 @@ public class MyOkHttpClient {
         // 创建OkHttpClient对象
         mClient = getClientBuilder()
                 .addInterceptor(logging)
-                .connectTimeout(defaultTimeout, TimeUnit.SECONDS)// 超时时间15S
+                .connectTimeout(defaultTimeout, TimeUnit.SECONDS)// 超时时间20S
                 .writeTimeout(defaultTimeout, TimeUnit.SECONDS)
                 .readTimeout(defaultTimeout, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)// 连接失败后是否重新连接
